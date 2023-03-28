@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.10
+    commands:
+      - mkdir terraform
+      - cd terraform
+      - if [ ! -x "$(command -v terraform)" ]; then
+          echo Installing Terraform;
+          curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/1.1.4/terraform_1.1.4_linux_amd64.zip;
+          unzip -o /tmp/terraform.zip -d /usr/local/bin/;
+        fi
+      - terraform -version
+  build:
+    commands:
+      - echo Building Infrastructure with Terraform
+#       - cd terraform
+      - terraform init
+      - terraform validate
+      - terraform plan -out=tfplan || echo "terraform plan failed"
+      - terraform show -json tfplan > tfplan.json || echo "terraform show failed"
+  post_build:
+    commands:
+      - echo Deploying Infrastructure with Terraform
+#       - cd terraform
+      - terraform plan -detailed-exitcode -out=tfplan || PLAN_EXIT_CODE=$?
+      - if [ $PLAN_EXIT_CODE -eq 2 ]; then terraform apply -auto-approve tfplan; fi
