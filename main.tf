@@ -7,6 +7,14 @@ provider "aws" {
   profile = "demo"
 }
 
+resource "aws_instance" "code_pip_instance" {
+  ami           = "ami-0d758c1134823146a"
+  instance_type = "t2.micro"
+  key_name = "key_pair_name"
+  tags = {
+    Name = "pipeline"
+  }
+}
 resource "aws_s3_bucket" "bucket" {
   bucket = local.bucketName
   versioning {
