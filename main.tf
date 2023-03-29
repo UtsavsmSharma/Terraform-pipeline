@@ -2,22 +2,22 @@ locals {
   bucketName=var.BucketName
 }
 provider "aws" {
-  #region = "us-east-1"
+  region = "us-east-1"
   shared_credentials_files = ["/credentials"]
   profile = "demo"
 }
 
-# resource "aws_instance" "code_pip_instance" {
-#   ami           = "ami-0d758c1134823146a"
-#   instance_type = "t2.micro"
-#   availability_zone = "us-east-1"
-#   key_name = "key_pair_name"
-#   tags = {
-#     Name = "pipeline"
-#   }
-# }
+resource "aws_instance" "code_pip_instance" {
+  ami           = "ami-0d758c1134823146a"
+  instance_type = "t2.micro"
+  
+  key_name = "key_pair_name"
+  tags = {
+    Name = "pipeline"
+  }
+}
 resource "aws_ebs_volume" "code_ebs" {
-  availability_zone = "us-west-2"
+  
   size              = 40
 
   tags = {
