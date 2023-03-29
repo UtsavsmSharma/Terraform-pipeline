@@ -2,7 +2,7 @@ locals {
   bucketName=var.BucketName
 }
 provider "aws" {
-  region = "us-east-1"
+  #region = "us-east-1"
   shared_credentials_files = ["/credentials"]
   profile = "demo"
 }
