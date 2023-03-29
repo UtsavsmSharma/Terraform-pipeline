@@ -17,7 +17,7 @@ provider "aws" {
 #   }
 # }
 resource "aws_ebs_volume" "code_ebs" {
-  availability_zone = "us-west-2a"
+  availability_zone = "us-west-2"
   size              = 40
 
   tags = {
