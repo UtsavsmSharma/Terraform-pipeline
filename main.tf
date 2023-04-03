@@ -16,22 +16,22 @@ resource "aws_instance" "code_pip_instance" {
     Name = "pipeline"
   }
 }
-resource "aws_ebs_volume" "code_ebs" {
+# resource "aws_ebs_volume" "code_ebs" {
   
-  size              = 40
+#   size              = 40
 
-  tags = {
-    Name = "HelloWorld"
-  }
-}
+#   tags = {
+#     Name = "HelloWorld"
+#   }
+# }
 
-resource "aws_ebs_snapshot" "ebs_snapshot" {
-  volume_id = aws_ebs_volume.code_ebs.id
+# resource "aws_ebs_snapshot" "ebs_snapshot" {
+#   volume_id = aws_ebs_volume.code_ebs.id
 
-  tags = {
-    Name = "HelloWorld_snap"
-  }
-}
+#   tags = {
+#     Name = "HelloWorld_snap"
+#   }
+# }
 resource "aws_s3_bucket" "bucket" {
   bucket = local.bucketName
   versioning {
