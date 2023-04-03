@@ -1,68 +1,32 @@
-locals {
-  bucketName=var.BucketName
-}
 provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "code_pip_instance" {
-  ami           = "ami-0d758c1134823146a"
+# S3 Bucket resource
+resource "aws_s3_bucket" "example_bucket" {
+  bucket = "demotxchd"
+  acl    = "private"
+}
+
+# EC2 Instance resource
+resource "aws_instance" "example_instance" {
+  ami           = "ami-00c39f71452c08778"
   instance_type = "t2.micro"
-  
-  key_name = "key_pair_name"
-  tags = {
-    Name = "pipeline"
+  key_name      = "tf"
+
+  # Attach the instance to a security group that allows SSH access
+  security_groups = ["ssh-access"]
+
+  # Provision the instance with a script
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hello, World!" > index.html
+              nohup python -m SimpleHTTPServer 80 &
+              EOF
+
+  # Attach an EBS volume to the instance
+  ebs_block_device {
+    device_name = "/dev/sdh"
+    volume_size = 100
   }
 }
-# resource "aws_ebs_volume" "code_ebs" {
-  
-#   size              = 40
-
-#   tags = {
-#     Name = "HelloWorld"
-#   }
-# }
-
-# resource "aws_ebs_snapshot" "ebs_snapshot" {
-#   volume_id = aws_ebs_volume.code_ebs.id
-
-#   tags = {
-#     Name = "HelloWorld_snap"
-#   }
-# }
-resource "aws_s3_bucket" "bucket" {
-  bucket = local.bucketName
-  versioning {
-    enabled=true
-  }
-  
-  acl = "private"
-  tags = {
-    Name        = "My bucket"
-    Environment = "test"
-  }
-}
-resource "aws_s3_bucket_lifecycle_configuration" "bucket-config" {
-  bucket=aws_s3_bucket.bucket.bucket
-  rule {
-    id = "demorule"
-
-    filter {}
-
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days          = 60
-      storage_class = "GLACIER"
-    }
-
-    status = "Enabled"
-  }
-    
-}
-# module "instance" {
-#       source = "/modules"
-# }
