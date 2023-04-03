@@ -65,6 +65,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket-config" {
   }
     
 }
-module "instance" {
-      source = "/modules"
-}
+# module "instance" {
+#       source = "/modules"
+# }
