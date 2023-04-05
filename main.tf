@@ -1,4 +1,4 @@
-    protocol    = "tcp"# EC2 Instance
+
 resource "aws_instance" "example" {
   ami           = "ami-00c39f71452c08778"
   instance_type = "t2.micro"
