@@ -1,6 +1,6 @@
 
 resource "aws_instance" "example" {
-  ami           = "ami-00c39f71452c08778"
+  ami           = "ami-02f97949d306b597a"
   instance_type = "t2.micro"
   tags = {
     Name = "example"
@@ -9,7 +9,7 @@ resource "aws_instance" "example" {
 
 # S3 Bucket
 resource "aws_s3_bucket" "example" {
-  bucket = "bucky8o08i87j"
+  bucket = "bucky8o08i87jrew6"
   acl    = "private"
 
   tags = {
